@@ -8,7 +8,7 @@ use League\Flysystem\Config;
 use League\Flysystem\FileAttributes;
 use League\Flysystem\FilesystemAdapter;
 use League\Flysystem\UnableToWriteFile;
-use Obs\ObsClient;
+use Loouss\ObsClient\ObsClient;
 
 class Adapter implements FilesystemAdapter
 {
