@@ -11,7 +11,7 @@
   "require": {
     "php": ">=7.4",
     "league/flysystem": "^1.0|^2.0",
-    "loouss/huawei-obs-client": "^0.0.1"
+    "loouss/huawei-obs-client": "^0.0.*"
   },
   "autoload": {
     "psr-4": {

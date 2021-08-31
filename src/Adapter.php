@@ -43,7 +43,7 @@ class Adapter implements FilesystemAdapter
         $maxRetryCount = $config['maxRetryCount'] ?? 1;
         $socketTimeout = $config['socketTimeout'] ?? 60;
         $connectTimeout = $config['connectTimeout'] ?? 60;
-        $chunkSize = $config['chunk_size'] ?? 8196;
+        $chunkSize = $config['chunkSize'] ?? 8196;
 
         $this->client = new ObsClient([
             'key' => $key,
