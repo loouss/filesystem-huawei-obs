@@ -1,0 +1,21 @@
+{
+  "name": "loouss/filesystem-huawei-obs",
+  "description": "huawei obs",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Loouss",
+      "email": "loouss.ls@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "obs/esdk-obs-php": "^3.21",
+    "league/flysystem": "^1.0|^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Loouss\\Filesystem\\Obs\\": "src/"
+    }
+  }
+}
