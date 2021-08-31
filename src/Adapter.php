@@ -46,7 +46,7 @@ class Adapter implements FilesystemAdapter
         $connectTimeout = $config['connectTimeout'] ?? 60;
         $chunkSize = $config['chunk_size'] ?? 8196;
 
-        $this->client = make(ObsClient::class, [
+        $this->client = new ObsClient([
             'key' => $key,
             'secret' => $secret,
             'endpoint' => $endpoint,
