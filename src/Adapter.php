@@ -41,7 +41,6 @@ class Adapter implements FilesystemAdapter
         $secret = $config['secret'];
         $endpoint = $config['endpoint'] ?? 'obs.cn-south-1.myhuaweicloud.com';
         $maxRetryCount = $config['maxRetryCount'] ?? 1;
-        $timeout = $config['timeout'] ?? 3600;
         $socketTimeout = $config['socketTimeout'] ?? 60;
         $connectTimeout = $config['connectTimeout'] ?? 60;
         $chunkSize = $config['chunk_size'] ?? 8196;
