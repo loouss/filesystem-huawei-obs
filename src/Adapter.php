@@ -93,7 +93,7 @@ class Adapter implements FilesystemAdapter
         return $this->client->getObject([
             'Bucket' => $this->bucket,
             'Key' => $path
-        ])['Body'];
+        ])['Body']->getContents();
     }
 
     public function readStream(string $path)
