@@ -9,6 +9,7 @@ use League\Flysystem\FileAttributes;
 use League\Flysystem\FilesystemAdapter;
 use League\Flysystem\UnableToWriteFile;
 use Loouss\ObsClient\ObsClient;
+use Loouss\ObsClient\ObsException;
 
 class Adapter implements FilesystemAdapter
 {
@@ -23,7 +24,7 @@ class Adapter implements FilesystemAdapter
     protected string $bucket;
 
     /**
-     * @param $config  = [
+     * @param  array  $config  = [
      *    'key' => '*** Provide your Access Key ***',
      *    'secret' => '*** Provide your Secret Key ***',
      *    'endpoint' => 'https://your-endpoint',
@@ -34,7 +35,7 @@ class Adapter implements FilesystemAdapter
      *    'chunk_size' => 8196
      * ]
      */
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
         $this->bucket = $config['bucket'];
         $key = $config['key'];
@@ -56,7 +57,16 @@ class Adapter implements FilesystemAdapter
 
     public function fileExists(string $path): bool
     {
-        return (bool) $this->client->getObjectMetadata(['Bucket' => $this->bucket, 'Key' => $path])['HttpStatusCode'];
+        try {
+            return (bool) $this->client->getObjectMetadata([
+                'Bucket' => $this->bucket, 'Key' => $path
+            ])['HttpStatusCode'];
+        } catch (ObsException $exception) {
+            if ($exception->getResponse()->getStatusCode() == 404) {
+                return false;
+            }
+            return true;
+        }
     }
 
     public function write(string $path, string $contents, Config $config): void
