@@ -48,7 +48,7 @@ class Adapter implements FilesystemAdapter
             return (bool) $this->client->headObject($path);
         } catch (RequestException $exception) {
             if ($exception->hasResponse()) {
-                if ($exception->getResponse()->getStatusCode() == 404) {
+                if ($exception->getResponse()->getStatusCode() == 404 || $exception->getResponse()->getHeaderLine('Content-Length') == 0) {
                     return false;
                 }
             } else {
