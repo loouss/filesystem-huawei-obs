@@ -30,7 +30,7 @@ class Adapter implements FilesystemAdapter
     protected string $bucket;
 
     /**
-     * @param  array  $config
+     * @param array $config
      */
     public function __construct(array $config = [])
     {
@@ -45,7 +45,7 @@ class Adapter implements FilesystemAdapter
     public function fileExists(string $path): bool
     {
         try {
-            return (bool) $this->client->headObject($path);
+            return (bool)$this->client->headObject($path);
         } catch (RequestException $exception) {
             if ($exception->hasResponse()) {
                 if ($exception->getResponse()->getStatusCode() == 404 || $exception->getResponse()->getHeaderLine('Content-Length') == 0) {
@@ -64,10 +64,10 @@ class Adapter implements FilesystemAdapter
         try {
             $response = $this->client->putObject($path, $contents, $config->get('headers', []));
             if ($response->getStatusCode() != 200) {
-                throw UnableToWriteFile::atLocation($path, (string) $response->getBody());
+                throw UnableToWriteFile::atLocation($path, (string)$response->getBody());
             }
         } catch (RequestException $exception) {
-            throw UnableToWriteFile::atLocation($path, (string) $exception->getResponse()->getBody());
+            throw UnableToWriteFile::atLocation($path, (string)$exception->getResponse()->getBody());
         }
     }
 
@@ -80,7 +80,7 @@ class Adapter implements FilesystemAdapter
     {
         try {
             $response = $this->client->getObject($path);
-            return (string) $response->getBody();
+            return (string)$response->getBody();
         } catch (RequestException $exception) {
             throw  UnableToReadFile::fromLocation($path, $exception->getResponse()->getBody()->getContents());
         }
@@ -96,10 +96,10 @@ class Adapter implements FilesystemAdapter
         try {
             $response = $this->client->deleteObject($path);
             if ($response->getStatusCode() != 200) {
-                throw UnableToDeleteFile::atLocation($path, (string) $response->getBody());
+                throw UnableToDeleteFile::atLocation($path, (string)$response->getBody());
             }
         } catch (RequestException $exception) {
-            throw UnableToDeleteFile::atLocation($path, (string) $exception->getResponse()->getBody());
+            throw UnableToDeleteFile::atLocation($path, (string)$exception->getResponse()->getBody());
         }
     }
 
@@ -110,14 +110,14 @@ class Adapter implements FilesystemAdapter
 
     public function createDirectory(string $path, Config $config): void
     {
-        $path = substr($path, -1) === '/' ? $path : $path.'/';
+        $path = substr($path, -1) === '/' ? $path : $path . '/';
         try {
             $response = $this->client->putObject($path, '', $config->get('headers', []));
             if ($response->getStatusCode() != 200) {
-                throw UnableToCreateDirectory::atLocation($path, (string) $response->getBody());
+                throw UnableToCreateDirectory::atLocation($path, (string)$response->getBody());
             }
         } catch (RequestException $exception) {
-            throw UnableToCreateDirectory::atLocation($path, (string) $exception->getResponse()->getBody());
+            throw UnableToCreateDirectory::atLocation($path, (string)$exception->getResponse()->getBody());
         }
     }
 
@@ -170,4 +170,9 @@ class Adapter implements FilesystemAdapter
         throw new UnableToCopyFile();
     }
 
+    public function directoryExists(string $path): bool
+    {
+        // TODO: Implement directoryExists() method.
+        return $this->client->headObject($path)->isDirectory();
+    }
 }
